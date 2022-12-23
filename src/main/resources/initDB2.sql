@@ -2,9 +2,10 @@ DROP TABLE IF EXISTS dealers;
 
 CREATE TABLE dealers
 (
-    dealer_code INTEGER      NOT NULL,
-    dealer_name VARCHAR(255) NOT NULL,
-    CONSTRAINT pk_dealers PRIMARY KEY (dealer_code),
+    id          INTEGER NOT NULL,
+    dealer_code INTEGER NOT NULL,
+    dealer_name VARCHAR(255),
+    CONSTRAINT pk_dealers PRIMARY KEY (id),
     CONSTRAINT uc_dealers_dealer_name UNIQUE (dealer_name)
 );
 

@@ -36,13 +36,13 @@ public class WarrantyWebSystemApplication implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) {
 
-/*        Map<Part, Integer> parts = new HashMap<>();
+       Map<Part, Integer> parts = new HashMap<>();
         parts.put(partRepository.getPartById(100), 1);
         parts.put(partRepository.getPartById(1050), 1);
-        dealerRepository.save(new Dealer("New dealer1", 25482));
+        // dealerRepository.save(new Dealer("New dealer2", 25483));
         System.out.println(dealerRepository.getByDealerCode(92320));
         Claim claim = new Claim(dealerRepository.getByDealerCode(92320),
-                "Kamaz", "ro2346", "86523695", 10098, MileageType.KM, ApplicationType.AUTOMOTIVE,
+                "Kamaz", "ro1329", "86523695", 10098, MileageType.KM, ApplicationType.AUTOMOTIVE,
                 "ISB6.7", LocalDate.of(2022, 7, 25),
                 LocalDateTime.now(), null, null, null,
                 parts, 0d, 0d, userRepository.getReferenceById(1), null, "Faulty of alternator", null);
@@ -50,7 +50,7 @@ public class WarrantyWebSystemApplication implements ApplicationRunner {
         claimRepository.save(claim);
 
 
-        System.out.println(userRepository.findAll());
-        System.out.println(claimRepository.findAll());*/
+       // System.out.println(userRepository.findAll());
+       // System.out.println(claimRepository.findAll());
     }
 }

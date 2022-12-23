@@ -5,14 +5,13 @@ DROP TABLE IF EXISTS dealers_users;
 DROP TABLE IF EXISTS users;
 DROP SEQUENCE IF EXISTS hibernate_sequence;
 
-
-
-CREATE SEQUENCE hibernate_sequence START 1;
+CREATE SEQUENCE hibernate_sequence START 200000;
 
 CREATE TABLE user_roles
 (
     user_id INTEGER NOT NULL,
     role    VARCHAR(255)
+    CONSTRAINT fk_user_roles_on_user FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
 );
 
 CREATE TABLE dealer_users
@@ -22,7 +21,6 @@ CREATE TABLE dealer_users
     CONSTRAINT pk_dealer_users PRIMARY KEY (dealer_code, users_id),
     CONSTRAINT fk_dealer_users_on_dealer FOREIGN KEY (dealer_code) REFERENCES dealers (dealer_code) ON DELETE CASCADE,
     CONSTRAINT fk_dealer_users_on_user FOREIGN KEY (users_id) REFERENCES users (id) ON DELETE CASCADE
-
 );
 
 CREATE TABLE users
@@ -35,31 +33,25 @@ CREATE TABLE users
     registered  TIMESTAMP WITHOUT TIME ZONE DEFAULT NOW() NOT NULL,
     dealer_code INTEGER                                   NOT NULL,
     CONSTRAINT pk_users PRIMARY KEY (id),
-    FOREIGN KEY (dealer_code) REFERENCES dealers (dealer_code) ON DELETE CASCADE
-
+    FOREIGN KEY (dealer_code) REFERENCES dealers (dealer_code) ON DELETE CASCADE,
+    CONSTRAINT uc_users_email UNIQUE (email),
+    CONSTRAINT FK_USERS_ON_DEALER_CODE FOREIGN KEY (dealer_code) REFERENCES dealers (dealer_code)
 );
-
-ALTER TABLE users
-    ADD CONSTRAINT uc_users_email UNIQUE (email);
-
-ALTER TABLE users
-    ADD CONSTRAINT FK_USERS_ON_DEALER_CODE FOREIGN KEY (dealer_code) REFERENCES dealers (dealer_code);
-
-ALTER TABLE user_roles
-    ADD CONSTRAINT fk_user_roles_on_ser FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE;
 
 CREATE TABLE claim_parts
 (
     claim_id INTEGER NOT NULL,
     part_id  INTEGER NOT NULL,
     qty      INTEGER,
-    CONSTRAINT pk_claim_parts PRIMARY KEY (claim_id, part_id)
+    CONSTRAINT pk_claim_parts PRIMARY KEY (claim_id, part_id),
+    CONSTRAINT fk_claim_parts_on_claim FOREIGN KEY (claim_id) REFERENCES claims (id),
+    CONSTRAINT fk_claim_parts_on_part FOREIGN KEY (part_id) REFERENCES parts (id)
 );
 
 CREATE TABLE claims
 (
     id               INTEGER      NOT NULL,
-    dealer_code      INTEGER      NOT NULL,
+    dealer_id        INTEGER      NOT NULL,
     oem              VARCHAR(255) NOT NULL,
     dealer_ro        VARCHAR(255) NOT NULL,
     esn              VARCHAR(255) NOT NULL,
@@ -79,18 +71,9 @@ CREATE TABLE claims
     narrative        VARCHAR(255),
     history          VARCHAR(255),
     CONSTRAINT pk_claims PRIMARY KEY (id),
-    FOREIGN KEY (dealer_code) REFERENCES dealers (dealer_code) ON DELETE CASCADE
+    FOREIGN KEY (dealer_id) REFERENCES dealers (id) ON DELETE CASCADE,
+    CONSTRAINT FK_CLAIMS_ON_ADVISER FOREIGN KEY (adviser) REFERENCES users (id),
+    CONSTRAINT FK_CLAIMS_ON_AUTHOR FOREIGN KEY (author) REFERENCES users (id)
 );
-CREATE UNIQUE INDEX claims_unique_dealer_dealer_RO_idx ON claims (dealer_code, dealer_ro);
+CREATE UNIQUE INDEX claims_unique_dealer_dealer_RO_idx ON claims (dealer_id, dealer_ro);
 
-ALTER TABLE claims
-    ADD CONSTRAINT FK_CLAIMS_ON_ADVISER FOREIGN KEY (adviser) REFERENCES users (id);
-
-ALTER TABLE claims
-    ADD CONSTRAINT FK_CLAIMS_ON_AUTHOR FOREIGN KEY (author) REFERENCES users (id);
-
-ALTER TABLE claim_parts
-    ADD CONSTRAINT fk_claim_parts_on_claim FOREIGN KEY (claim_id) REFERENCES claims (id);
-
-ALTER TABLE claim_parts
-    ADD CONSTRAINT fk_claim_parts_on_part FOREIGN KEY (part_id) REFERENCES parts (id);

@@ -23,8 +23,8 @@ import java.util.Map;
 @AllArgsConstructor
 public class Claim extends AbstractPersistable<Integer> {
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn (name="dealer_code")
+    @ManyToOne
+    @JoinColumn (name="dealer_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
     @NotNull
     private Dealer dealer;

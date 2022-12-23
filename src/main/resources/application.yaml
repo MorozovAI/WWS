@@ -33,6 +33,10 @@ spring:
     setter: none
     is-getter: none
 
+ security:
+   user.name: user # Default user name.
+   user.password: 123  # Password
+
 logging:
   level:
     root: WARN
