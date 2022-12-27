@@ -68,7 +68,7 @@ public class User extends AbstractPersistable<Integer> {
     private Set<Role> roles;
 
     @ManyToOne
-    @JoinColumn (name="dealer_code")
+    @JoinColumn (name="dealer_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
     @NotNull
     private Dealer dealer;

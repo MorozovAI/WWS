@@ -1,17 +1,19 @@
 DELETE FROM user_roles;
 DELETE FROM users;
 DELETE FROM claim_parts;
+DELETE FROM parts;
 DELETE FROM claims;
+DELETE FROM dealers;
 
-INSERT INTO users
-VALUES (1, 'Vassily Petrov', 'vpetrov@jr.com', '1234',  true, now(), 31),
-       (2, 'Pjotr Vasechkin', 'pvasechkin@jr.com', '1234',  true, now(), 15);
 
-INSERT INTO user_roles (role, user_id)
-VALUES ('USER', 1),
-       ('ADVISER', 2),
-       ('USER', 2);
+COPY parts FROM 'D:\parts.csv' DELIMITER ';' CSV HEADER encoding 'windows-1251';
 
-INSERT INTO dealers_users (dealer_code, users_id)
-VALUES (92320, 1),
-       (92319, 2);
+COPY dealers FROM 'D:\d.csv' DELIMITER ';' CSV HEADER encoding 'windows-1251';
+
+COPY users FROM 'D:\users.csv' DELIMITER ';' CSV HEADER encoding 'windows-1251';
+
+COPY user_roles FROM 'D:\user_roles.csv' DELIMITER ';' CSV HEADER encoding 'windows-1251';
+
+COPY claims FROM 'D:\Claims.csv' DELIMITER ';' CSV HEADER encoding 'windows-1251';
+
+COPY claim_parts FROM 'D:\claim_parts.csv' DELIMITER ';' CSV HEADER encoding 'windows-1251';

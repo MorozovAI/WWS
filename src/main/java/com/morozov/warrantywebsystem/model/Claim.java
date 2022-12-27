@@ -104,4 +104,7 @@ public class Claim extends AbstractPersistable<Integer> {
     @Column(name = "history")
     @Size(max = 2000)
     private String history;
+
+    @Column(name = "status")
+    private ClaimStatus status;
 }

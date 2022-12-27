@@ -7,5 +7,6 @@ public enum ApplicationType {
     GENSET,
     FIREPUMP,
     RAILWAY,
-    BUS
+    BUS,
+    MARINE
 }

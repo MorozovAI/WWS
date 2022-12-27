@@ -36,7 +36,7 @@ public class WarrantyWebSystemApplication implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) {
 
-       Map<Part, Integer> parts = new HashMap<>();
+/*       Map<Part, Integer> parts = new HashMap<>();
         parts.put(partRepository.getPartById(100), 1);
         parts.put(partRepository.getPartById(1050), 1);
         // dealerRepository.save(new Dealer("New dealer2", 25483));
@@ -51,6 +51,6 @@ public class WarrantyWebSystemApplication implements ApplicationRunner {
 
 
        // System.out.println(userRepository.findAll());
-       // System.out.println(claimRepository.findAll());
+       // System.out.println(claimRepository.findAll());*/
     }
 }
