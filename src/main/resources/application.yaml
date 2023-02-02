@@ -1,12 +1,12 @@
 #  https://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
 spring:
- jpa:
+  jpa:
     show-sql: true
     open-in-view: false
     # https://stackoverflow.com/a/67678945/548473
     defer-datasource-initialization: true
-    #hibernate:
-     # ddl-auto: create
+      #hibernate:
+    # ddl-auto: create
     properties:
       #  http://docs.jboss.org/hibernate/orm/5.3/userguide/html_single/Hibernate_User_Guide.html#configurations
       hibernate:
@@ -14,35 +14,44 @@ spring:
         default_batch_fetch_size: 20
         # https://stackoverflow.com/questions/21257819/what-is-the-difference-between-hibernate-jdbc-fetch-size-and-hibernate-jdbc-batc
         jdbc.batch_size: 20
- datasource:
+  datasource:
     # postgres
     url: jdbc:postgresql://localhost:5432/postgres
     username: postgres
     password: 123456
     driver-class-name: org.postgresql.Driver
 
- data.rest:
-  #  https://docs.spring.io/spring-data/rest/docs/current/reference/html/#getting-started.basic-settings
-  basePath: /api
-  returnBodyOnCreate: true
+    # =============================================
+    # VIEW RESOLVER
+    # =============================================
 
-  # Jackson Serialization Issue Resolver
- jackson.visibility:
+  mvc.view:
+    prefix: /WEB-INF/jsp/
+    suffix: .jsp
+
+  data.rest:
+    #  https://docs.spring.io/spring-data/rest/docs/current/reference/html/#getting-started.basic-settings
+    basePath: /api
+    # returnBodyOnCreate: true
+
+    # Jackson Serialization Issue Resolver
+  jackson.visibility:
     field: any
     getter: none
     setter: none
     is-getter: none
 
- security:
-   user.name: user # Default user name.
-   user.password: 123  # Password
+    # security:
+    # user.name: user # Default user name.
+    # user.password: 123  # Password
 
 logging:
   level:
     root: WARN
-    ru.morozov.graduation: DEBUG
+    com.morozov.warrantywebsystem: DEBUG
     org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver: DEBUG
     org.springframework.cache: TRACE
+    logging.level.org.springframework.security: DEBUG
 
 
 server.servlet:

@@ -1,5 +1,8 @@
 package com.morozov.warrantywebsystem.model;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonIncludeProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +30,7 @@ public class Claim extends AbstractPersistable<Integer> {
     @JoinColumn (name="dealer_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
     @NotNull
+    @JsonAlias("dealer.")
     private Dealer dealer;
 
     @Column(name = "oem", nullable = false)
@@ -88,12 +92,12 @@ public class Claim extends AbstractPersistable<Integer> {
     @Column(name = "approve_amount")
     private Double approvedAmount;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "author")
     @NotNull
     private User author;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "adviser")
     private User adviser;
 

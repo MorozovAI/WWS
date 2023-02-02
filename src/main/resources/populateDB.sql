@@ -1,8 +1,8 @@
 DELETE FROM user_roles;
-DELETE FROM users;
 DELETE FROM claim_parts;
-DELETE FROM parts;
 DELETE FROM claims;
+DELETE FROM users;
+DELETE FROM parts;
 DELETE FROM dealers;
 
 

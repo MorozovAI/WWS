@@ -3,12 +3,12 @@ package com.morozov.warrantywebsystem.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.hibernate.Hibernate;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.lang.Nullable;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -17,7 +17,7 @@ import java.util.Set;
 
 import static javax.persistence.GenerationType.SEQUENCE;
 
-@JsonIgnoreProperties({"hibernateLazyInitializer"})
+//@JsonIgnoreProperties({"hibernateLazyInitializer"})
 @Entity
 @Table(name = "dealers")
 @Getter
@@ -26,7 +26,7 @@ import static javax.persistence.GenerationType.SEQUENCE;
 public class Dealer {
 
     @Id
-    @GeneratedValue(strategy=SEQUENCE)
+    @GeneratedValue(strategy = SEQUENCE)
     @Nullable
     private Integer id;
 
@@ -36,10 +36,9 @@ public class Dealer {
     private String dealerName;
 
     @Column(name = "dealer_code", nullable = false, unique = true)
-    @PrimaryKeyJoinColumn
     private Integer dealerCode;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "dealer")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "dealer")
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Set<User> users;
 
@@ -50,8 +49,7 @@ public class Dealer {
 
     @Override
     public String toString() {
-        return "Dealer " +
-                dealerCode;
+        return "" + dealerCode;
     }
 
     @Override
