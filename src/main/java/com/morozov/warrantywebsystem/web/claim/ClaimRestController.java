@@ -17,7 +17,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -39,19 +38,18 @@ public class ClaimRestController {
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable int id) {
+        log.info("delete claim {}", id);
         repository.deleteById(id);
     }
-
 
     @GetMapping()
     public ResponseEntity<Map<String, Object>> getAllWithPagination(@RequestParam(value = "start", defaultValue = "0") Integer start,
                                                                     @RequestParam(value = "length", defaultValue = "20") Integer length,
                                                                     @RequestParam(value = "draw", defaultValue = "1") Integer draw,
-                                                                    @RequestParam("order[0][column]") int sortColIndex,
-                                                                    @RequestParam("order[0][dir]") String order,
-                                                                    @RequestParam("search[value]") String search,
-                                                                    @RequestParam("status") int status,
-                                                                    @RequestParam Map<String,String> allRequestParams
+                                                                    @RequestParam(value = "order[0][column]", defaultValue = "0") int sortColIndex,
+                                                                    @RequestParam(value = "order[0][dir]", defaultValue = "desc") String order,
+                                                                    @RequestParam(value = "status", defaultValue = "0") int status,
+                                                                    @RequestParam Map<String, String> allRequestParams
     ) {
         //int userId = SecurityUtil.authUser().id();
         log.info("getAll claims with pagination");
@@ -62,11 +60,11 @@ public class ClaimRestController {
                 length,
                 Sort.by(
                         Sort.Direction.fromString(order),
-                        allRequestParams.get("columns["+sortColIndex+"][data]")
+                        allRequestParams.size() > 0 ? allRequestParams.get("columns[" + sortColIndex + "][data]"):"failureDate"
                 )
         );
-        Page<ClaimTo> claims =  repository.findClaimsByStatus(ClaimStatus.values()[status], pageable)
-                                         .map(ClaimsUtil::createClaimTo);
+        Page<ClaimTo> claims = repository.findClaimsByStatus(ClaimStatus.values()[status], pageable)
+                .map(ClaimsUtil::createClaimTo);
         Map<String, Object> response = new HashMap<>();
         response.put("draw", draw);
         response.put("recordsTotal", claims.getTotalElements());

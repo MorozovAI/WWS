@@ -43,7 +43,8 @@
                         <col span="1" style="width: 20%;">
                         <col span="1" style="width: 30%;">
                         <col span="1" style="width: 20%;">
-                        <col span="1" style="width: 20%;">
+                        <col span="1" style="width: 15%;">
+                        <col span="1" style="width: 5%;">
                     </colgroup>
                     <thead>
                     <tr>
@@ -52,6 +53,7 @@
                         <th>Номер двигателя</th>
                         <th>Дата неисправности</th>
                         <th>Сумма</th>
+                        <th></th>
                     </tr>
                     </thead>
                 </table>
@@ -64,7 +66,8 @@
                             <col span="1" style="width: 20%;">
                             <col span="1" style="width: 30%;">
                             <col span="1" style="width: 20%;">
-                            <col span="1" style="width: 20%;">
+                            <col span="1" style="width: 15%;">
+                            <col span="1" style="width: 5%;">
                         </colgroup>
                         <thead>
                         <tr>
@@ -73,6 +76,7 @@
                             <th>Номер двигателя</th>
                             <th>Дата неисправности</th>
                             <th>Сумма</th>
+                            <th></th>
                         </tr>
                         </thead>
                     </table>
@@ -86,7 +90,8 @@
                         <col span="1" style="width: 20%;">
                         <col span="1" style="width: 30%;">
                         <col span="1" style="width: 20%;">
-                        <col span="1" style="width: 20%;">
+                        <col span="1" style="width: 15%;">
+                        <col span="1" style="width: 5%;">
                     </colgroup>
                     <thead>
                     <tr>
@@ -95,6 +100,7 @@
                         <th>Номер двигателя</th>
                         <th>Дата неисправности</th>
                         <th>Сумма</th>
+                        <th></th>
                     </tr>
                     </thead>
                 </table>
@@ -105,10 +111,10 @@
                     <colgroup>
                         <col span="1" style="width: 10%;">
                         <col span="1" style="width: 20%;">
+                        <col span="1" style="width: 30%;">
                         <col span="1" style="width: 20%;">
                         <col span="1" style="width: 15%;">
-                        <col span="1" style="width: 15%;">
-                        <col span="1" style="width: 15%;">
+                        <col span="1" style="width: 5%;">
                     </colgroup>
                     <thead>
                     <tr>
@@ -117,7 +123,7 @@
                         <th>Номер двигателя</th>
                         <th>Дата неисправности</th>
                         <th>Сумма</th>
-                        <th>Сумма2</th>
+                        <th></th>
                     </tr>
                     </thead>
                 </table>
@@ -129,7 +135,8 @@
                         <col span="1" style="width: 20%;">
                         <col span="1" style="width: 30%;">
                         <col span="1" style="width: 20%;">
-                        <col span="1" style="width: 20%;">
+                        <col span="1" style="width: 15%;">
+                        <col span="1" style="width: 5%;">
                     </colgroup>
                     <thead>
                     <tr>
@@ -138,6 +145,7 @@
                         <th>Номер двигателя</th>
                         <th>Дата неисправности</th>
                         <th>Сумма</th>
+                        <th></th>
                     </tr>
                     </thead>
                 </table>
@@ -146,5 +154,9 @@
     </div>
 </div>
 <script src="../../resources/js/claim-pagination.js"></script>
+<jsp:include page="fragments/footer.jsp"/>
 </body>
+<jsp:include page="fragments/i18n.jsp">
+    <jsp:param name="page" value="meal"/>
+</jsp:include>
 </html>
