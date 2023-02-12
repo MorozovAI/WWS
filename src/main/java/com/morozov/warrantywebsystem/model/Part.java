@@ -17,7 +17,7 @@ import javax.validation.constraints.Size;
 @Data
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class Part extends AbstractPersistable<Integer> {
+public class Part extends BaseEntity {
     @Column(name = "part_number", nullable = false, unique = true)
     @NotBlank
     @Size(min = 7, max = 16)

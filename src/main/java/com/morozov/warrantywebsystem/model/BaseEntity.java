@@ -3,6 +3,7 @@ package com.morozov.warrantywebsystem.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.springframework.data.domain.Persistable;
+import org.springframework.data.jpa.domain.AbstractPersistable;
 import org.springframework.data.util.ProxyUtils;
 import org.springframework.util.Assert;
 
@@ -16,7 +17,7 @@ import javax.persistence.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString
-public abstract class BaseEntity implements Persistable<Integer> {
+public abstract class BaseEntity extends AbstractPersistable<Integer> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

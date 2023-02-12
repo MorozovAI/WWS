@@ -15,5 +15,6 @@ public class ClaimTo {
     String esn;
     LocalDate failureDate;
     Double claimAmount;
+    Double approvedAmount;
     ClaimStatus status;
 }

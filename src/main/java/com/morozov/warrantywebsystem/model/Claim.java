@@ -1,15 +1,15 @@
 package com.morozov.warrantywebsystem.model;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonIncludeProperties;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
-import lombok.ToString;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.morozov.warrantywebsystem.HasId;
+import lombok.*;
+import org.hibernate.Hibernate;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.data.jpa.domain.AbstractPersistable;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -18,23 +18,25 @@ import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Map;
+import java.util.Objects;
 
 @Entity
 @Table(name = "claims")
-@Data
-@RequiredArgsConstructor
+@Getter
+@Setter
+@ToString
 @AllArgsConstructor
-public class Claim extends AbstractPersistable<Integer> {
+@NoArgsConstructor
+public class Claim extends BaseEntity implements HasId {
 
     @ManyToOne
-    @JoinColumn (name="dealer_id")
+    @JoinColumn(name = "dealer_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @NotNull
     @JsonAlias("dealer.")
     private Dealer dealer;
 
     @Column(name = "oem", nullable = false)
-    @NotBlank
+   // @NotBlank
     @Size(max = 25)
     private String oem;
 
@@ -47,23 +49,24 @@ public class Claim extends AbstractPersistable<Integer> {
     private String esn;
 
     @Column(name = "mileage", nullable = false)
-    @NotNull
+    //@NotNull
     private Integer mileage;
 
     @Column(name = "mileage_type", nullable = false)
-    @NotNull
+   // @NotNull
     private MileageType mileageType;
 
     @Column(name = "application_type")
-    @NotNull
+    //@NotNull
     private ApplicationType applicationType;
 
     @Column(name = "engine_model")
-    @NotBlank
+    //@NotBlank
     private String engineModel;
 
     @Column(name = "failure_date")
     @NotNull
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate failureDate;
 
     @Column(name = "receive_date")
@@ -84,6 +87,8 @@ public class Claim extends AbstractPersistable<Integer> {
     @MapKeyJoinColumn(name = "part_id")
     @Column(name = "qty")
     @ToString.Exclude
+    @Nullable
+    @JsonIgnore
     private Map<Part, Integer> parts;
 
     @Column(name = "claim_amount")
@@ -94,11 +99,14 @@ public class Claim extends AbstractPersistable<Integer> {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "author")
-    @NotNull
+    @ToString.Exclude
+    @Nullable
     private User author;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "adviser")
+    @ToString.Exclude
+    @Nullable
     private User adviser;
 
     @Column(name = "narrative")
@@ -107,8 +115,30 @@ public class Claim extends AbstractPersistable<Integer> {
 
     @Column(name = "history")
     @Size(max = 2000)
-    private String history;
+    private String history="";
 
     @Column(name = "status")
     private ClaimStatus status;
+
+    public Claim(Integer id, String dealerRO, String esn, LocalDate failureDate) {
+        super(id);
+        this.dealerRO = dealerRO;
+        this.esn = esn;
+        this.failureDate = failureDate;
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        Claim claim = (Claim) o;
+        return dealerRO.equals(claim.dealerRO) && esn.equals(claim.esn) && failureDate.equals(claim.failureDate);
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
 }

@@ -62,3 +62,6 @@ server.servlet:
 
 server:
   port: 8080
+
+settings:
+  period-for-update-new-claim: "2" #during this period possible to update claim by user

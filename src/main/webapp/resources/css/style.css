@@ -10,7 +10,7 @@ tr[data-meal-excess="true"] {
     cursor: pointer;
 }
 
-tr[data-user-enabled="false"] {
+tr[data-enabled="false"] {
     opacity: 0.3;
 }
 

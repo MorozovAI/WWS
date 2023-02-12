@@ -17,6 +17,7 @@
 
         <input type="text" class="form-control" id="pn" name="p0n"
                placeholder="enter part number">
+
         <button id="getPN" onclick="search()">Search</button>
 
         <table class="table table-striped" id="datatable">

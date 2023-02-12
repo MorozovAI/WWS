@@ -1,5 +1,6 @@
 package com.morozov.warrantywebsystem.web;
 
+import com.morozov.warrantywebsystem.model.Role;
 import com.morozov.warrantywebsystem.model.User;
 import lombok.Getter;
 import lombok.ToString;
@@ -19,4 +20,6 @@ public class AuthUser extends org.springframework.security.core.userdetails.User
     public int id() {
         return user.getId();
     }
+
+
 }

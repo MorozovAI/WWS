@@ -1,26 +1,10 @@
-const userAjaxUrl = "admin/users/";
+const userAjaxUrl = "rest/admin/users/";
 
-// https://stackoverflow.com/a/5064235/548473
 const ctx = {
     ajaxUrl: userAjaxUrl,
     updateTable: function () {
         $.get(userAjaxUrl, updateTableByData);
     }
-}
-
-function enable(chkbox, id) {
-    var enabled = chkbox.is(":checked");
-//  https://stackoverflow.com/a/22213543/548473
-    $.ajax({
-        url: userAjaxUrl + id,
-        type: "POST",
-        data: "enabled=" + enabled
-    }).done(function () {
-        chkbox.closest("tr").attr("data-user-enabled", enabled);
-        successNoty(enabled ? "common.enabled" : "common.disabled");
-    }).fail(function () {
-        $(chkbox).prop("checked", !enabled);
-    });
 }
 
 // $(document).ready(function () {
@@ -29,6 +13,9 @@ $(function () {
         "columns": [
             {
                 "data": "name"
+            },
+            {
+                "data": "dealer.dealerCode"
             },
             {
                 "data": "email",
@@ -64,23 +51,62 @@ $(function () {
                 "orderable": false,
                 "defaultContent": "",
                 "render": renderEditBtn
-            },
-            {
-                "orderable": false,
-                "defaultContent": "",
-                "render": renderDeleteBtn
             }
         ],
         "order": [
             [
-                0,
+                1,
                 "asc"
             ]
         ],
         "createdRow": function (row, data, dataIndex) {
             if (!data.enabled) {
-                $(row).attr("data-user-enabled", false);
+                $(row).attr("data-enabled", false);
             }
         }
     });
 });
+
+function makeEditable(datatableOpts) {
+    ctx.datatableApi = $("#datatable").DataTable(// https://api.jquery.com/jquery.extend/#jQuery-extend-deep-target-object1-objectN
+        $.extend(true, datatableOpts, {
+            "paging": true,
+            "info": true,
+            "pageLength": 10,
+            "searching": true,
+            "lengthMenu": [[10, 25, 50], [10, 25, 50]],
+            "ajax": {
+                "url": ctx.ajaxUrl,
+                "dataSrc": ""
+            }
+        }));
+}
+
+function save() {
+    $.ajax({
+        type: "PUT",
+        url: ctx.ajaxUrl+document.getElementById("id").value,
+        data: JSON.stringify(getFormData(form)),
+        contentType: "application/json",
+        dataType: "json"
+    }).done(function () {
+        $("#editRow").modal("hide");
+        ctx.updateTable();
+        successNoty("common.saved");
+    });
+}
+
+function updateRow(id) {
+    form.find(":input").val("");
+    $("#modalTitle").html(i18n["editTitle"]);
+    $.get(ctx.ajaxUrl + id, function (data) {
+        $.each(data, function (key, value) {
+            form.find("[name='" + key + "']").val(value).attr("readonly", false).attr("disabled", false);
+        });
+        $('#editRow').modal();
+    });
+}
+
+function updateTableByData(data) {
+    ctx.datatableApi.clear().rows.add(data).draw();
+}

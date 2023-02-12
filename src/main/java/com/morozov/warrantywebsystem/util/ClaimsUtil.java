@@ -13,6 +13,6 @@ public class ClaimsUtil {
     }
 
     public static ClaimTo createClaimTo(Claim claim) {
-        return new ClaimTo(claim.getId(), claim.getDealer().getDealerCode(), claim.getDealerRO(), claim.getEsn(), claim.getFailureDate(), claim.getClaimAmount(), claim.getStatus());
+        return new ClaimTo(claim.getId(), claim.getDealer().getDealerCode(), claim.getDealerRO(), claim.getEsn(), claim.getFailureDate(), claim.getClaimAmount(), claim.getApprovedAmount(), claim.getStatus());
     }
 }

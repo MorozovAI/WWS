@@ -22,9 +22,10 @@ CREATE TABLE parts
 
 CREATE TABLE dealers
 (
-    id          INTEGER NOT NULL,
-    dealer_code INTEGER NOT NULL,
+    id          INTEGER              NOT NULL,
+    dealer_code INTEGER              NOT NULL,
     dealer_name VARCHAR(255),
+    enabled     BOOLEAN DEFAULT TRUE NOT NULL,
     CONSTRAINT pk_dealers PRIMARY KEY (id),
     CONSTRAINT uc_dealers_dealer_name UNIQUE (dealer_name)
 );
@@ -37,7 +38,7 @@ CREATE TABLE users
     password   VARCHAR(255)                              NOT NULL,
     enabled    BOOLEAN                     DEFAULT TRUE  NOT NULL,
     registered TIMESTAMP WITHOUT TIME ZONE DEFAULT NOW() NOT NULL,
-    dealer_id  INTEGER                                   NOT NULL,
+    dealer_id  INTEGER,
     CONSTRAINT pk_users PRIMARY KEY (id),
     FOREIGN KEY (dealer_id) REFERENCES dealers (id) ON DELETE CASCADE,
     CONSTRAINT uc_users_email UNIQUE (email)
@@ -61,14 +62,14 @@ CREATE TABLE dealer_users
 
 CREATE TABLE claims
 (
-    id               INTEGER      NOT NULL,
+    id               INTEGER,
     dealer_id        INTEGER      NOT NULL,
-    oem              VARCHAR(255) NOT NULL,
+    oem              VARCHAR(255),
     dealer_ro        VARCHAR(255) NOT NULL,
     esn              VARCHAR(255) NOT NULL,
-    mileage          INTEGER      NOT NULL,
-    mileage_type     INTEGER      NOT NULL,
-    application_type INTEGER      NOT NULL,
+    mileage          INTEGER,
+    mileage_type     INTEGER,
+    application_type INTEGER,
     engine_model     VARCHAR(255),
     failure_date     date         NOT NULL,
     receive_date     TIMESTAMP WITHOUT TIME ZONE,
@@ -77,11 +78,11 @@ CREATE TABLE claims
     approve_date     TIMESTAMP WITHOUT TIME ZONE,
     claim_amount     DOUBLE PRECISION,
     approve_amount   DOUBLE PRECISION,
-    author           INTEGER      NOT NULL,
+    author           INTEGER,
     adviser          INTEGER,
-    narrative        VARCHAR(255),
-    history          VARCHAR(255),
-    status           INTEGER      NOT NULL,
+    narrative        text,
+    history          text,
+    status           INTEGER,
     CONSTRAINT pk_claims PRIMARY KEY (id),
     FOREIGN KEY (dealer_id) REFERENCES dealers (id) ON DELETE CASCADE,
     CONSTRAINT FK_CLAIMS_ON_ADVISER FOREIGN KEY (adviser) REFERENCES users (id),
@@ -95,6 +96,6 @@ CREATE TABLE claim_parts
     part_id  INTEGER NOT NULL,
     qty      INTEGER,
     CONSTRAINT pk_claim_parts PRIMARY KEY (claim_id, part_id),
-    CONSTRAINT fk_claim_parts_on_claim FOREIGN KEY (claim_id) REFERENCES claims (id),
+    CONSTRAINT fk_claim_parts_on_claim FOREIGN KEY (claim_id) REFERENCES claims (id) ON DELETE CASCADE,
     CONSTRAINT fk_claim_parts_on_part FOREIGN KEY (part_id) REFERENCES parts (id)
 );

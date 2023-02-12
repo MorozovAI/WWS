@@ -1,5 +1,6 @@
 package com.morozov.warrantywebsystem.config;
 
+import com.morozov.warrantywebsystem.model.Role;
 import com.morozov.warrantywebsystem.model.User;
 import com.morozov.warrantywebsystem.repository.UserRepository;
 import com.morozov.warrantywebsystem.web.AuthUser;
@@ -36,18 +37,25 @@ public class SecurityConfiguration {
     public UserDetailsService userDetailsService() {
         return email -> {
             log.debug("Authenticating '{}'", email);
-            Optional<User> optionalUser = userRepository.findUserByEmailIgnoreCase(email);
-            return new AuthUser(optionalUser.orElseThrow(
-                    () -> new UsernameNotFoundException("User '" + email + "' was not found")));
+            Optional<User> optionalUser = userRepository.findByEmailIgnoreCase(email);
+            User user = optionalUser.orElseThrow(
+                    () -> new UsernameNotFoundException("User '" + email + "' was not found"));
+            if (!user.isEnabled()) throw new UsernameNotFoundException("User '" + email + "' is disabled");
+            return new AuthUser(user);
         };
     }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-               // .csrf().disable()
+                .csrf().ignoringAntMatchers("/rest/**")
+                .and()
                 .authorizeRequests()
-                .antMatchers("/", "/registration").permitAll()
+                .antMatchers("/").permitAll()
+                .antMatchers("/swagger-ui.html").permitAll()
+                .antMatchers("/users", "/dealers").hasRole(Role.ADMIN.name())
+                .antMatchers("/rest/admin/**").hasRole(Role.ADMIN.name())
+                .antMatchers("/rest/adviser/**").hasRole(Role.ADVISER.name())
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()

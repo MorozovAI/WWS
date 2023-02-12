@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core" %>
 
 <head>
+    <link rel="icon" href="/resources/images/WWS-logo-sm.png">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
     <meta name="_csrf" content="${_csrf.token}"/>
@@ -17,6 +18,7 @@
     <link rel="stylesheet" href="webjars/datatables/1.11.4/css/dataTables.bootstrap4.min.css">
     <link rel="stylesheet" href="webjars/noty/3.1.4/lib/noty.css"/>
     <link rel="stylesheet" href="webjars/datetimepicker/2.5.20-1/jquery.datetimepicker.css">
+    <link rel="stylesheet" href="webjars/bootstrap-datepicker\1.9.0\css\bootstrap-datepicker.css">
 
     <%--http://stackoverflow.com/a/24070373/548473--%>
     <script src="webjars/jquery/3.6.0/jquery.min.js"></script>
@@ -25,4 +27,5 @@
     <script src="webjars/datatables/1.11.4/js/dataTables.bootstrap4.min.js" defer></script>
     <script src="webjars/noty/3.1.4/lib/noty.min.js" defer></script>
     <script src="webjars/datetimepicker/2.5.20-1/build/jquery.datetimepicker.full.min.js" defer></script>
+    <script src="webjars/bootstrap-datepicker\1.9.0\js\bootstrap-datepicker.min.js" defer></script>
 </head>

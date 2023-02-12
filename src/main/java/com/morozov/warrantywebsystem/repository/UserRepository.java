@@ -1,13 +1,12 @@
 package com.morozov.warrantywebsystem.repository;
 
 import com.morozov.warrantywebsystem.model.User;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, Integer> {
+public interface UserRepository extends BaseRepository<User> {
 
-    Optional<User> findUserByEmailIgnoreCase(String email);
+    Optional<User> findByEmailIgnoreCase(String email);
 }

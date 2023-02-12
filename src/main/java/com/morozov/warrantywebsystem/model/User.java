@@ -1,14 +1,13 @@
 package com.morozov.warrantywebsystem.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIncludeProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.morozov.warrantywebsystem.HasIdAndEmail;
 import com.morozov.warrantywebsystem.util.JsonDeserializers;
 import lombok.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
-import org.springframework.data.jpa.domain.AbstractPersistable;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
@@ -31,9 +30,8 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
 @ToString(callSuper = true, exclude = {"password"})
-public class User extends BaseEntity implements Serializable {
+public class User extends BaseEntity implements HasIdAndEmail, Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
@@ -50,14 +48,11 @@ public class User extends BaseEntity implements Serializable {
 
     @Column(name = "password", nullable = false)
     @NotBlank
-    @Size(max = 256)
+    @Size(min = 5, max = 256)
     // https://stackoverflow.com/a/12505165/548473
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @JsonDeserialize(using = JsonDeserializers.PasswordDeserializer.class)
     private String password;
-
-    @Column(name = "enabled", nullable = false, columnDefinition = "bool default true")
-    private boolean enabled = true;
 
     @Column(name = "registered", nullable = false, columnDefinition = "timestamp default now()", updatable = false)
     @NotNull
@@ -75,19 +70,20 @@ public class User extends BaseEntity implements Serializable {
     private Set<Role> roles;
 
     @ManyToOne
-    @JoinColumn (name="dealer_id")
+    @JoinColumn(name = "dealer_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @NotNull
-    @JsonIncludeProperties({"dealerCode", "dealerName"})
+    @JsonIncludeProperties({"id", "dealerCode", "dealerName"})
     private Dealer dealer;
 
-    public User(String name, String email, String password, Collection<Role> roles, Dealer dealer) {
-        this.name=name;
+    @Column(name = "enabled", nullable = false, columnDefinition = "bool default true")
+    private boolean enabled = true;
+
+    public User(Integer id, String name, String email, String password) {
+        super(id);
+        this.name = name;
         this.email = email;
         this.password = password;
         this.registered = Date.from(LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant());
-        this.enabled = true;
-        this.dealer = dealer;
         setRoles(roles);
     }
 

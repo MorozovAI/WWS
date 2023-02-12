@@ -16,4 +16,6 @@ public class AppConfig {
         objectMapper.registerModule(new Hibernate5Module());
         JsonUtil.setMapper(objectMapper);
     }
+
+    
 }

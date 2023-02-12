@@ -1,13 +1,12 @@
 package com.morozov.warrantywebsystem.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.morozov.warrantywebsystem.HasId;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.Hibernate;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
-import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -15,20 +14,14 @@ import javax.validation.constraints.Size;
 import java.util.Objects;
 import java.util.Set;
 
-import static javax.persistence.GenerationType.SEQUENCE;
-
 //@JsonIgnoreProperties({"hibernateLazyInitializer"})
 @Entity
 @Table(name = "dealers")
 @Getter
 @Setter
 @NoArgsConstructor
-public class Dealer {
+public class Dealer extends BaseEntity implements HasId {
 
-    @Id
-    @GeneratedValue(strategy = SEQUENCE)
-    @Nullable
-    private Integer id;
 
     @Column(name = "dealer_name", unique = true)
     @NotBlank
@@ -38,11 +31,15 @@ public class Dealer {
     @Column(name = "dealer_code", nullable = false, unique = true)
     private Integer dealerCode;
 
+    @Column(name = "enabled", nullable = false, columnDefinition = "bool default true")
+    private boolean enabled = true;
+
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "dealer")
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Set<User> users;
 
-    public Dealer(String dealerName, Integer dealerCode) {
+    public Dealer(Integer id, String dealerName, Integer dealerCode) {
+        super(id);
         this.dealerName = dealerName;
         this.dealerCode = dealerCode;
     }

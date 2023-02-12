@@ -1,5 +1,6 @@
 package com.morozov.warrantywebsystem.web;
 
+import com.morozov.warrantywebsystem.model.Role;
 import com.morozov.warrantywebsystem.model.User;
 import lombok.experimental.UtilityClass;
 import org.springframework.security.core.Authentication;
@@ -29,5 +30,9 @@ public class SecurityUtil {
 
     public static int authId() {
         return get().getUser().id();
+    }
+
+    public boolean hasRole(Role role) {
+        return authUser().getRoles().contains(role);
     }
 }
