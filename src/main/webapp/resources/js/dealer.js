@@ -2,6 +2,7 @@ let dealerId = new URL(document.documentURI).searchParams.get("dealerId");
 const dealersUsersAjaxUrl = "rest/admin/dealers/" + dealerId + "/users";
 const dealerAjaxUrl = "rest/admin/dealers/" + dealerId;
 const userAjaxUrl = "rest/admin/users/"
+
 const ctx = {
     ajaxUrl: dealersUsersAjaxUrl,
     updateTable: function () {
@@ -13,7 +14,7 @@ const ctx = {
 }
 
 $($.get(dealerAjaxUrl, function (data) {
-    document.getElementById("dealerInfo").innerText = (data.dealerCode + "-" + data.dealerName);
+    document.getElementById("dealerInfo").innerText = (data.dealerCode + " - " + data.dealerName);
 }));
 
 

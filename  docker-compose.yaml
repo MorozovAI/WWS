@@ -1,0 +1,14 @@
+version: '3'
+
+services:
+  postgres:
+    image: 'postgres:alpine'
+    container_name: 'wws-postgres'
+    ports:
+      - 5432:5432
+    environment:
+      - 'POSTGRES_USER=postgres'
+      - 'POSTGRES_PASSWORD=123456'
+      - 'POSTGRES_DB=wws'
+    volumes:
+      - ./data:/data

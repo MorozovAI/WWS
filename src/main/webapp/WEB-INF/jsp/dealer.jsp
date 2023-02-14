@@ -13,14 +13,13 @@
 
 <div class="jumbotron pt-4">
     <div class="container">
-        <h3 class="text-center"><spring:message code="dealer.title"/></h3>
         <h3 class="text-center" id="dealerInfo"></h3>
         <br/>
         <button class="btn btn-primary" onclick="add()">
             <span class="fa fa-plus"></span>
             <spring:message code="common.add"/>
         </button>
-
+        <br/>
         <table class="table table-striped" id="datatable">
             <thead>
             <tr>

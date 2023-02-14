@@ -6,14 +6,14 @@ DELETE FROM parts;
 DELETE FROM dealers;
 
 
-COPY parts FROM 'D:\parts.csv' DELIMITER ';' CSV HEADER encoding 'windows-1251';
+copy parts FROM '/data/parts.csv' DELIMITER ';' CSV HEADER encoding 'windows-1251';
 
-COPY dealers FROM 'D:\d.csv' DELIMITER ';' CSV HEADER encoding 'windows-1251';
+COPY dealers FROM '/data/d.csv' DELIMITER ';' CSV HEADER encoding 'windows-1251';
 
-COPY users FROM 'D:\users.csv' DELIMITER ';' CSV HEADER encoding 'windows-1251';
+COPY users FROM '/data/users.csv' DELIMITER ';' CSV HEADER encoding 'windows-1251';
 
-COPY user_roles FROM 'D:\user_roles.csv' DELIMITER ';' CSV HEADER encoding 'windows-1251';
+COPY user_roles FROM '/data/user_roles.csv' DELIMITER ';' CSV HEADER encoding 'windows-1251';
 
-COPY claims FROM 'D:\Claims.csv' DELIMITER ';' CSV HEADER encoding 'windows-1251';
+COPY claims FROM '/data/Claims.csv' DELIMITER ';' CSV HEADER encoding 'windows-1251';
 
-COPY claim_parts FROM 'D:\claim_parts.csv' DELIMITER ';' CSV HEADER encoding 'windows-1251';
+COPY claim_parts FROM '/data/claim_parts.csv' DELIMITER ';' CSV HEADER encoding 'windows-1251';

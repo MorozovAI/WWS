@@ -36,7 +36,7 @@ public class RootController {
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/dealer")
     public String getDealer() {
-        log.info("dealers");
+        log.info("dealer profile");
         return "dealer";
     }
 /*    @GetMapping("/login")
